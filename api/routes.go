@@ -29,6 +29,7 @@ func BuildRoutesHandler() *gin.Engine {
 
 	// All other API routes should be mounted on this route group
 	apiRoutes := r.Group("/api")
+	apiRoutes.GET("/user/token_test", handlers.GetTokenTest)
 
 	// mount the API routes auth middleware
 	apiRoutes.Use(AuthMiddleware())
@@ -42,6 +43,7 @@ func BuildRoutesHandler() *gin.Engine {
 	// User routes
 	apiRoutes.GET("/users/:id", handlers.GetUserById)
 	apiRoutes.PUT("/users/:id", handlers.UpdateUser)
+	apiRoutes.GET("/user/groups", handlers.GetUserGroups)
 
 	return r
 }
