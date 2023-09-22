@@ -42,5 +42,5 @@ func GetUserGroups(c *gin.Context) {
 		return // Return the actual error for other errors
 	}
 
-	response.Success(c, http.StatusOK, "User retrieved successfully", map[string]any{"groups": groups})
+	response.Success(c, http.StatusOK, "groups retrieved successfully", map[string]any{"groups": groups})
 }

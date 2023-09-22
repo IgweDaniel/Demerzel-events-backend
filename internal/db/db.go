@@ -3,32 +3,17 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"os"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
 func SetupDB() {
-	var (
-		dbUsername = os.Getenv("MYSQL_USERNAME")
-		dbPass     = os.Getenv("MYSQL_PASSWORD")
-		dbHost     = os.Getenv("MYSQL_HOST")
-		dbName     = os.Getenv("MYSQL_DBNAME")
-		dbPortStr  = os.Getenv("MYSQL_PORT")
-	)
 
-	dbPort, err := strconv.Atoi(dbPortStr)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to convert MYSQL_PORT to an integer: %v", err))
-	}
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", dbUsername, dbPass, dbHost, dbPort, dbName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("../../events.db"), &gorm.Config{})
 
 	if err != nil {
 		panic(fmt.Sprintf("Failed to open DB: %v", err))
