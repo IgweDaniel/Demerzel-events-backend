@@ -21,19 +21,19 @@ func SubscribeUserToGroup(userID, groupID string) (models.UserGroup, error) {
 	var group models.Group
 
 	userGroup := models.UserGroup{
-		UserID: userID,
+		UserID:  userID,
 		GroupID: groupID,
 	}
 
 	existingUser := db.DB.Where(&models.User{
-		Id:  userID,
+		Id: userID,
 	}).First(&user)
 	if existingUser.Error != nil {
 		return userGroup, existingUser.Error
 	}
 
 	existingGroup := db.DB.Where(&models.Group{
-		ID:  groupID,
+		ID: groupID,
 	}).First(&group)
 	if existingGroup.Error != nil {
 		return userGroup, existingGroup.Error
@@ -41,6 +41,7 @@ func SubscribeUserToGroup(userID, groupID string) (models.UserGroup, error) {
 
 	userExistInGroup := db.DB.Where(&models.UserGroup{
 		UserID:  userID,
+		GroupID: groupID,
 	}).First(&userGroup)
 
 	fmt.Println(userExistInGroup.Error)
